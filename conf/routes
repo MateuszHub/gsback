@@ -1,0 +1,56 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                           controllers.HomeController.index()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+# OAuth2
+GET     /login/google                     controllers.GoogleAuthController.getLink
+GET     /login/google/token               controllers.GoogleAuthController.setToken(code: String)
+GET     /login/github                     controllers.GithubAuthController.getLink
+GET     /login/github/token               controllers.GithubAuthController.setToken(code: String)
+
+
+
+# Users
+GET     /users                     controllers.UserController.get
+
+
+# items
+GET     /items                     controllers.ItemController.getAll
++nocsrf
+POST     /items                      controllers.ItemController.add
++nocsrf
+DELETE     /items/:id                     controllers.ItemController.deactive(id: Int)
+
+# orders
+GET     /orders                     controllers.OrderController.getAll
++nocsrf
+POST     /orders                      controllers.OrderController.add
+GET     /orders/:id/pay                 controllers.OrderController.pay(id: Int)
++nocsrf
+POST     /         controllers.OrderController.afterPay
+
+# keys
+GET /orders/:orderId/keys                controllers.KeysController.get(orderId: Int)
++nocsrf
+POST /items/:_itemId/keys               controllers.KeysController.add(_itemId: Int)
+
+# address
+GET     /address                     controllers.AddressController.getAll
++nocsrf
+POST     /address                      controllers.AddressController.add
+
+
+# login
++nocsrf
+GET     /logout                     controllers.BasicAuthController.logout
++nocsrf
+POST     /login                     controllers.BasicAuthController.login
++nocsrf
+POST     /register                      controllers.BasicAuthController.register

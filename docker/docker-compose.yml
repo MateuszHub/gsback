@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+    mysql:
+        image: mysql:5.7
+        ports:
+            - 3306:3306
+        expose:
+            - 3306
+        command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+        restart: always
+        volumes:
+            - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+            - ./data.sql:/docker-entrypoint-initdb.d/zdata.sql:ro
+        environment: 
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: gamestore
